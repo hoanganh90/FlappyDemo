@@ -45,7 +45,7 @@ public class Tube
         return posBottomTube;
     }
 
-    public void reposition(int x){
+    public void reposition(float x){
         posTopTube.set(x, rand.nextInt(FLUCTUATION)+ TUBE_GAP + LOWEST_OPENNING);
         posBottomTube.set(x,posTopTube.y - TUBE_GAP - bottomTube.getHeight());
 

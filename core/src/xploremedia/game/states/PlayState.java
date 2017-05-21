@@ -3,8 +3,7 @@ package xploremedia.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import java.lang.reflect.Array;
+import com.badlogic.gdx.utils.Array;
 
 import xploremedia.game.FlappyDemo;
 import xploremedia.game.sprites.Bird;
@@ -19,7 +18,7 @@ public class PlayState extends State {
     private Bird bird;
     private Texture bg;
 
-    private Array<Tube>tubes;
+    private Array<Tube> tubes;
     public PlayState(GameStateManager gsm) {
         super(gsm);
         //bird = new Texture("bird.png");
@@ -43,6 +42,14 @@ public class PlayState extends State {
     public void update(float dt) {
         handleInput();
         bird.update(dt);
+        cam.position.x = bird.getPosition().x + 80;
+        for(Tube tube : tubes){
+            if(cam.position.x - (cam.viewportWidth/2) > tube.getPosTopTube().x + tube.getTopTube().getWidth()){
+                tube.reposition(tube.getPosTopTube().x + ((Tube.TUBE_WIDTH + TUBE_SPACING)*TUBE_COUNT));
+            }
+        }
+        cam.update();
+
     }
 
     @Override
@@ -51,8 +58,10 @@ public class PlayState extends State {
         sb.begin();
         sb.draw(bg, cam.position.x - (cam.viewportWidth / 2), 0);
         sb.draw(bird.getTexture(), bird.getPosition().x, bird.getPosition().y);
-        sb.draw(tube.getTopTube(), tube.getPosTopTube().x, tube.getPosTopTube().y);
-        sb.draw(tube.getBottomTube(),tube.getPosBottomTube().x, tube.getPosBottomTube().y);
+        for(Tube tube : tubes) {
+            sb.draw(tube.getTopTube(), tube.getPosTopTube().x, tube.getPosTopTube().y);
+            sb.draw(tube.getBottomTube(), tube.getPosBottomTube().x, tube.getPosBottomTube().y);
+        }
         sb.end();
     }
 
