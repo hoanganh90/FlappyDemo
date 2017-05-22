@@ -62,4 +62,8 @@ public class Tube
     public boolean collides(Rectangle player){
         return player.intersects(boundsTop)|| player.intersects(boundsBot);
     }
+    public void dispose(){
+        topTube.dispose();
+        bottomTube.dispose();
+    }
 }
